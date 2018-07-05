@@ -46,7 +46,7 @@ class IssueBasicMixin(object):
         """
         event = group.get_latest_event()
         if event is not None:
-            Event.objects.bind_nodes([event], 'node_data')
+            Event.objects.bind_nodes([event], 'data')
 
         return [
             {
