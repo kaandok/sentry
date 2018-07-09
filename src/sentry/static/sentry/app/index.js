@@ -163,7 +163,11 @@ export default {
     theme: require('app/utils/theme').default,
     utils: {
       errorHandler: require('app/utils/errorHandler').default,
+<<<<<<< HEAD
       ajaxCsrfSetup: require('app/utils/ajaxCsrfSetup').default,
+=======
+      getCookie: require('app/utils/getCookie').default,
+>>>>>>> register log exposure hook, export getcookie for it, use it in settingsnav
       logging: require('app/utils/logging'),
     },
   },
