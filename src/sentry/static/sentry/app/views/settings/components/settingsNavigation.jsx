@@ -6,13 +6,12 @@ import SettingsNavigationGroup from 'app/views/settings/components/settingsNavig
 import SentryTypes from 'app/proptypes';
 import HookStore from 'app/stores/hookStore';
 
-
 class SettingsNavigation extends React.Component {
   static propTypes = {
     hooks: PropTypes.array,
     hookConfigs: PropTypes.array,
     navigationObjects: PropTypes.arrayOf(SentryTypes.NavigationObject).isRequired,
-    organization: PropTypes.object,
+    organization: SentryTypes.Organization,
   };
 
   static defaultProps = {
@@ -21,17 +20,17 @@ class SettingsNavigation extends React.Component {
   };
 
   componentDidMount() {
-  	let {organization} = this.props;
+    let {organization} = this.props;
+    if (!organization) return;
 
-	if(!organization) return;
-	let exposed =  organization.features.includes('sso-paywall-experiment');
-	let data = {
-         experiment_name: 'SSOPaywallExperiment',
-         unit_name: 'org_id',
-         unit_id: parseInt(organization.id, 10),
-         params: `{exposed: ${exposed}}`
+    let exposed = organization.features.includes('sso-paywall-experiment');
+    let data = {
+      experiment_name: 'SSOPaywallExperiment',
+      unit_name: 'org_id',
+      unit_id: parseInt(organization.id, 10),
+      params: `{exposed: ${exposed}}`,
     };
-
+    //Experiment variant is already assigned - this logs the exposure i.e. when the user gets to the settings page
     HookStore.get('analytics:log-experiment').forEach(cb => cb(data));
   }
 
